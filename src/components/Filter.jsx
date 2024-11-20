@@ -13,4 +13,4 @@ const Filter = ({ onTitleChange, onRatingChange }) => (
     </div>
   );
   export default Filter;
-  
+   

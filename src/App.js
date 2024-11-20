@@ -1,43 +1,24 @@
 import React, { useState } from 'react';
 import MovieList from './components/MovieList';
-import Filter from './components/Filter';
 import moviesData from './movies';
+import { BrowserRouter as Router , Route, Routes, Link, useParams} from 'react-router-dom';
+import MovieDescription from './components/MovieDescription';
+import MovieList from './components/MovieList';
+
 
 const App = () => {
-  const [movies, setMovies] = useState(moviesData);
-  const [filteredMovies, setFilteredMovies] = useState(moviesData);
-  const [titleFilter, setTitleFilter] = useState("");
-  const [ratingFilter, setRatingFilter] = useState(0);
-
-  const handleTitleChange = (title) => {
-    setTitleFilter(title);
-    applyFilters(title, ratingFilter);
-  };
-
-  const handleRatingChange = (rating) => {
-    setRatingFilter(rating);
-    applyFilters(titleFilter, rating);
-  };
-
-  const applyFilters = (title, rating) => {
-    const filtered = movies.filter(movie =>
-      movie.title.toLowerCase().includes(title.toLowerCase()) &&
-      movie.rating >= rating
-    );
-    setFilteredMovies(filtered);
-  };
-
-  const addMovie = (newMovie) => {
-    setMovies([...movies, newMovie]);
-    applyFilters(titleFilter, ratingFilter);
-  };
+  const [movies] = useState(moviesData);
 
   return (
-    <div className="app">
-      <h1>Movie App</h1>
-      <Filter onTitleChange={handleTitleChange} onRatingChange={handleRatingChange} />
-      <MovieList movies={filteredMovies} />
-    </div>
+    <Router>
+      <div>
+        <h1>Movie App</h1>
+        <Routes>
+          <Route path="/" element={<MovieList movies={movies} />} />
+          <Route path="/movie/:title" element={<MovieDescription movies={movies} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
